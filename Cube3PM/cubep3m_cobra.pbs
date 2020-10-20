@@ -1,0 +1,26 @@
+# Initial working directory:
+#SBATCH -D ./
+
+#SBATCH --nodes=500
+#SBATCH --ntasks=1000
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=20
+
+##SBATCH --time=24:00:00
+#SBATCH --time=06:00:00
+##SBATCH --mem=192000
+#SBATCH --partition=large 
+
+#SBATCH --output=msg/cubep3m-out.%j
+#SBATCH --error=msg/cubep3m-err.%j
+#SBATCH --mail-type=ALL                                                      
+#SBATCH --mail-user=mbianco@mpa-garching.mpg.de
+
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+
+# For pinning threads correctly:
+export OMP_PLACES=cores
+
+export LD_LIBRARY_PATH=$FFTW_HOME/lib:$LD_LIBRARY_PATH
+
+srun ./cubep3m_dm

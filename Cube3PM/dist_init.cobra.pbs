@@ -1,0 +1,23 @@
+#!/bin/bash -x
+# Initial working directory:
+#SBATCH -D ./
+#SBATCH --nodes=500
+#SBATCH --ntasks=1000
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=20
+#SBATCH --threads-per-core=2
+#SBATCH --output=./msg/dist_init-out.%j
+#SBATCH --error=./msg/dist_init-err.%j
+#SBATCH --time=02:00:00
+##SBATCH --partition=batch
+##SBATCH --partition=large
+#SBATCH --mail-type=ALL                                                      
+#SBATCH --mail-user=mbianco@mpa-garching.mpg.de
+
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+# For pinning threads correctly:
+export OMP_PLACES=cores
+
+export LD_LIBRARY_PATH=$FFTW_HOME/lib:$LD_LIBRARY_PATH
+
+srun ./dist_init_dmnu_dm
