@@ -1,2 +1,2 @@
 # BashScriptCollection
-Collection of different bash script for different EoR simulation for different HPC.
+Collection of different bash script for different EoR and N-body simulation for different HPC.
