@@ -1,0 +1,23 @@
+#!/bin/bash -x
+
+#SBATCH -D ./
+#SBATCH -J asmooth
+#SBATCH --nodes=250
+#SBATCH --ntasks=1000
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=10
+
+##SBATCH --partition=tiny
+#SBATCH --mem=85000
+#SBATCH --time=24:00:00
+
+#SBATCH --output=msg/asmooth-out.%j
+#SBATCH --error=msg/asmooth-err.%j
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=mb756@sussex.ac.uk
+
+#export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
+#export OMP_PLACES=cores		# For pinning threads correctly
+#export LD_LIBRARY_PATH=$FFTW_HOME/lib:$LD_LIBRARY_PATH
+
+srun ./asmooth/clumping_tree -nc 300,600 -xv 1200 -node_dir results/node -allocate 12000 -omegam 0.311051
